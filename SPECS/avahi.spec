@@ -48,7 +48,7 @@
 
 Name:             avahi
 Version:          0.8
-Release:          12%{?dist}.1
+Release:          15%{?dist}
 Summary:          Local network service discovery
 License:          LGPLv2+
 URL:              http://avahi.org
@@ -132,6 +132,9 @@ Patch8: 0008-Ship-avahi-discover-1-bssh-1-and-bvnc-1-also-for-GTK.patch
 Patch9: 0009-fix-requires-in-pc-file.patch
 Patch10: 0010-fix-bytestring-decoding-for-proper-display.patch
 Patch11: 0011-avahi_dns_packet_consume_uint32-fix-potential-undefi.patch
+Patch12: 0001-Avoid-infinite-loop-in-avahi-daemon-by-handling-HUP-.patch
+Patch13: 0001-Fix-NULL-pointer-crashes-from-175.patch
+Patch14: 0001-Emit-error-if-requested-service-is-not-found.patch
 
 ## downstream patches
 Patch100:         avahi-0.6.30-mono-libdir.patch
@@ -827,8 +830,14 @@ exit 0
 
 
 %changelog
-* Fri May 26 2023 Michal Sekletar <msekleta@redhat.com> - 0.8-12.1
-- Rebuilt in order to include avahi-tools sub-package in the repository (#2204487)
+* Wed Aug 23 2023 Michal Sekletar <msekleta@redhat.com> - 0.8-15
+- Fix CVE-2023-1981 (#2186689)
+
+* Wed Aug 23 2023 Michal Sekletar <msekleta@redhat.com> - 0.8-14
+- Fix CVE-2021-3502 (#1949949)
+
+* Thu Aug 17 2023 Michal Sekletar <msekleta@redhat.com> - 0.8-13
+- Fix CVE-2021-3468 (#1944092)
 
 * Mon Feb 21 2022 Michal Sekletár <msekleta@redhat.com> - 0.8-12
 - make sure we get compiled with -fstack-protector-strong (#2044643)
