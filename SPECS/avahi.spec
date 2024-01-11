@@ -26,7 +26,7 @@
 
 Name:             avahi
 Version:          0.7
-Release:          20%{?dist}
+Release:          21%{?dist}
 Summary:          Local network service discovery
 License:          LGPLv2+
 URL:              http://avahi.org
@@ -87,6 +87,7 @@ Patch0003:  0003-Remove-empty-avahi_discover-Python-module.patch
 # https://github.com/lathiat/avahi/pull/202
 Patch0004:  0004-avahi-client-fix-resource-leak.patch
 Patch0005:  0005-chroot-fix-bogus-assignments-in-assertions.patch
+Patch0006:  0001-Emit-error-if-requested-service-is-not-found.patch
 
 ## downstream patches
 Patch100:         avahi-0.6.30-mono-libdir.patch
@@ -655,6 +656,9 @@ exit 0
 
 
 %changelog
+* Wed Aug 23 2023 Michal Sekletar <msekleta@redhat.com> - 0.7-21
+- Fix CVE-2023-1981 (#2186688)
+
 * Tue Nov 03 2020 Michal Sekletár <msekleta@redhat.com> - 0.7-20
 - rebuild to include UI related subpackages to CodeReady Builder repo (#1879714)
 
