@@ -26,7 +26,7 @@
 
 Name:             avahi
 Version:          0.7
-Release:          21%{?dist}
+Release:          21%{?dist}.1
 Summary:          Local network service discovery
 License:          LGPLv2+
 URL:              http://avahi.org
@@ -88,6 +88,14 @@ Patch0003:  0003-Remove-empty-avahi_discover-Python-module.patch
 Patch0004:  0004-avahi-client-fix-resource-leak.patch
 Patch0005:  0005-chroot-fix-bogus-assignments-in-assertions.patch
 Patch0006:  0001-Emit-error-if-requested-service-is-not-found.patch
+Patch0007:  0001-Ensure-each-label-is-at-least-one-byte-long.patch
+Patch0008:  0001-core-make-sure-there-is-rdata-to-process-before-pars.patch
+Patch0009:  0001-core-copy-resource-records-with-zero-length-rdata-pr.patch
+Patch0010:  0001-common-derive-alternative-host-name-from-its-unescap.patch
+Patch0011:  0001-core-extract-host-name-using-avahi_unescape_label.patch
+Patch0012:  0001-core-return-errors-from-avahi_server_set_host_name-p.patch
+Patch0013:  0001-core-reject-overly-long-TXT-resource-records.patch
+Patch0014:  0001-Avoid-infinite-loop-in-avahi-daemon-by-handling-HUP-.patch
 
 ## downstream patches
 Patch100:         avahi-0.6.30-mono-libdir.patch
@@ -656,6 +664,14 @@ exit 0
 
 
 %changelog
+* Wed Dec 06 2023 Michal Sekletar <msekleta@redhat.com> - 0.7-21.1
+- Fix CVE-2021-3468 (RHEL-18311)
+- Fix CVE-2023-38469 (RHEL-17783)
+- Fix CVE-2023-38470 (RHEL-17795)
+- Fix CVE-2023-38471 (RHEL-17789)
+- Fix CVE-2023-38472 (RHEL-17807)
+- Fix CVE-2023-38473 (RHEL-17801)
+
 * Wed Aug 23 2023 Michal Sekletar <msekleta@redhat.com> - 0.7-21
 - Fix CVE-2023-1981 (#2186688)
 
