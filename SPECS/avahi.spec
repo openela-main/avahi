@@ -48,7 +48,7 @@
 
 Name:             avahi
 Version:          0.8
-Release:          15%{?dist}
+Release:          20%{?dist}
 Summary:          Local network service discovery
 License:          LGPLv2+
 URL:              http://avahi.org
@@ -135,6 +135,13 @@ Patch11: 0011-avahi_dns_packet_consume_uint32-fix-potential-undefi.patch
 Patch12: 0001-Avoid-infinite-loop-in-avahi-daemon-by-handling-HUP-.patch
 Patch13: 0001-Fix-NULL-pointer-crashes-from-175.patch
 Patch14: 0001-Emit-error-if-requested-service-is-not-found.patch
+Patch15: 0001-common-derive-alternative-host-name-from-its-unescap.patch
+Patch16: 0001-Ensure-each-label-is-at-least-one-byte-long.patch
+Patch17: 0001-core-make-sure-there-is-rdata-to-process-before-pars.patch
+Patch18: 0001-core-copy-resource-records-with-zero-length-rdata-pr.patch
+Patch19: 0001-core-extract-host-name-using-avahi_unescape_label.patch
+Patch20: 0001-core-return-errors-from-avahi_server_set_host_name-p.patch
+Patch21: 0001-core-reject-overly-long-TXT-resource-records.patch
 
 ## downstream patches
 Patch100:         avahi-0.6.30-mono-libdir.patch
@@ -830,6 +837,21 @@ exit 0
 
 
 %changelog
+* Wed Nov 08 2023 Michal Sekletar <msekleta@redhat.com> - 0.8-20
+- Fix CVE-2023-38469 (RHEL-5637)
+
+* Wed Nov 08 2023 Michal Sekletar <msekleta@redhat.com> - 0.8-19
+- Fix CVE-2023-38471 (RHEL-5642)
+
+* Wed Nov 08 2023 Michal Sekletar <msekleta@redhat.com> - 0.8-18
+- Fix CVE-2023-38472 (RHEL-5645)
+
+* Wed Nov 01 2023 Michal Sekletar <msekleta@redhat.com> - 0.8-17
+- Fix CVE-2023-38470 (RHEL-5641)
+
+* Wed Nov 01 2023 Michal Sekletar <msekleta@redhat.com> - 0.8-16
+- Fix CVE-2023-38473 (RHEL-5729)
+
 * Wed Aug 23 2023 Michal Sekletar <msekleta@redhat.com> - 0.8-15
 - Fix CVE-2023-1981 (#2186689)
 
