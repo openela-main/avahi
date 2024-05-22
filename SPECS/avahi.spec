@@ -26,7 +26,7 @@
 
 Name:             avahi
 Version:          0.7
-Release:          21%{?dist}.1
+Release:          27%{?dist}
 Summary:          Local network service discovery
 License:          LGPLv2+
 URL:              http://avahi.org
@@ -664,13 +664,23 @@ exit 0
 
 
 %changelog
-* Wed Dec 06 2023 Michal Sekletar <msekleta@redhat.com> - 0.7-21.1
-- Fix CVE-2021-3468 (RHEL-18311)
-- Fix CVE-2023-38469 (RHEL-17783)
-- Fix CVE-2023-38470 (RHEL-17795)
-- Fix CVE-2023-38471 (RHEL-17789)
-- Fix CVE-2023-38472 (RHEL-17807)
-- Fix CVE-2023-38473 (RHEL-17801)
+* Thu Nov 09 2023 Michal Sekletar <msekleta@redhat.com> - 0.7-27
+- Fix CVE-2021-3468 (RHEL-9542)
+
+* Thu Nov 09 2023 Michal Sekletar <msekleta@redhat.com> - 0.7-26
+- Fix CVE-2023-38469 (RHEL-5635)
+
+* Thu Nov 09 2023 Michal Sekletar <msekleta@redhat.com> - 0.7-25
+- Fix CVE-2023-38471 (RHEL-5639)
+
+* Thu Nov 09 2023 Michal Sekletar <msekleta@redhat.com> - 0.7-24
+- Fix CVE-2023-38473 (RHEL-5643)
+
+* Thu Nov 09 2023 Michal Sekletar <msekleta@redhat.com> - 0.7-23
+- Fix CVE-2023-38472 (RHEL-5644)
+
+* Thu Nov 09 2023 Michal Sekletar <msekleta@redhat.com> - 0.7-22
+- Fix CVE-2023-38470 (RHEL-5640)
 
 * Wed Aug 23 2023 Michal Sekletar <msekleta@redhat.com> - 0.7-21
 - Fix CVE-2023-1981 (#2186688)
