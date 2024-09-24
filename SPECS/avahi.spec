@@ -26,7 +26,7 @@
 
 Name:             avahi
 Version:          0.7
-Release:          27%{?dist}
+Release:          27%{?dist}.1
 Summary:          Local network service discovery
 License:          LGPLv2+
 URL:              http://avahi.org
@@ -96,6 +96,8 @@ Patch0011:  0001-core-extract-host-name-using-avahi_unescape_label.patch
 Patch0012:  0001-core-return-errors-from-avahi_server_set_host_name-p.patch
 Patch0013:  0001-core-reject-overly-long-TXT-resource-records.patch
 Patch0014:  0001-Avoid-infinite-loop-in-avahi-daemon-by-handling-HUP-.patch
+Patch0015:  0001-Do-not-disable-timeout-cleanup-on-watch-cleanup.patch
+Patch0016:  0001-fix-memory-leak-in-wide-area-lookup.patch
 
 ## downstream patches
 Patch100:         avahi-0.6.30-mono-libdir.patch
@@ -510,7 +512,7 @@ exit 0
 %ghost %{_sysconfdir}/avahi/etc/localtime
 %config(noreplace) %{_sysconfdir}/avahi/hosts
 %dir %{_sysconfdir}/avahi/services
-%ghost %dir %{_localstatedir}/run/avahi-daemon
+%ghost %attr(0755, avahi, avahi) %dir %{_localstatedir}/run/avahi-daemon
 %config(noreplace) %{_sysconfdir}/avahi/avahi-daemon.conf
 %config(noreplace) %{_sysconfdir}/dbus-1/system.d/avahi-dbus.conf
 %{_sbindir}/avahi-daemon
@@ -664,6 +666,10 @@ exit 0
 
 
 %changelog
+* Tue Aug 27 2024 Michal Sekletar <msekleta@redhat.com> - 0.7-27.1
+- fix file attributes for /run/avahi-daemon (RHEL-5631)
+- fix two memory leaks (RHEL-43458)
+
 * Thu Nov 09 2023 Michal Sekletar <msekleta@redhat.com> - 0.7-27
 - Fix CVE-2021-3468 (RHEL-9542)
 
