@@ -48,7 +48,7 @@
 
 Name:             avahi
 Version:          0.8
-Release:          20%{?dist}
+Release:          21%{?dist}
 Summary:          Local network service discovery
 License:          LGPLv2+
 URL:              http://avahi.org
@@ -142,6 +142,8 @@ Patch18: 0001-core-copy-resource-records-with-zero-length-rdata-pr.patch
 Patch19: 0001-core-extract-host-name-using-avahi_unescape_label.patch
 Patch20: 0001-core-return-errors-from-avahi_server_set_host_name-p.patch
 Patch21: 0001-core-reject-overly-long-TXT-resource-records.patch
+Patch22: 0001-avahi-client-fix-resource-leak.patch
+Patch23: 0001-avahi-core-rearrange-deallocations-in-avahi_time_eve.patch
 
 ## downstream patches
 Patch100:         avahi-0.6.30-mono-libdir.patch
@@ -629,7 +631,7 @@ exit 0
 %ghost %{_sysconfdir}/avahi/etc/localtime
 %config(noreplace) %{_sysconfdir}/avahi/hosts
 %dir %{_sysconfdir}/avahi/services
-%ghost %dir %{_localstatedir}/run/avahi-daemon
+%ghost %attr(0755, avahi, avahi) %dir %{_localstatedir}/run/avahi-daemon
 %config(noreplace) %{_sysconfdir}/avahi/avahi-daemon.conf
 %config(noreplace) %{_sysconfdir}/dbus-1/system.d/avahi-dbus.conf
 %{_sbindir}/avahi-daemon
@@ -837,6 +839,11 @@ exit 0
 
 
 %changelog
+* Mon Aug 26 2024 Michal Sekletar <msekleta@redhat.com> - 0.8-21
+- fix file attributes on /run/avahi-daemon (RHEL-5633)
+- avahi-client: fix resource leak (RHEL-27722)
+- fix resource leak in avahi_time_event_queue_new (RHEL-27717)
+
 * Wed Nov 08 2023 Michal Sekletar <msekleta@redhat.com> - 0.8-20
 - Fix CVE-2023-38469 (RHEL-5637)
 
