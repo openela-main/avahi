@@ -48,7 +48,7 @@
 
 Name:             avahi
 Version:          0.8
-Release:          21%{?dist}
+Release:          22%{?dist}
 Summary:          Local network service discovery
 License:          LGPLv2+
 URL:              http://avahi.org
@@ -144,6 +144,7 @@ Patch20: 0001-core-return-errors-from-avahi_server_set_host_name-p.patch
 Patch21: 0001-core-reject-overly-long-TXT-resource-records.patch
 Patch22: 0001-avahi-client-fix-resource-leak.patch
 Patch23: 0001-avahi-core-rearrange-deallocations-in-avahi_time_eve.patch
+Patch24: 0001-Properly-randomize-query-id-of-DNS-packets.patch
 
 ## downstream patches
 Patch100:         avahi-0.6.30-mono-libdir.patch
@@ -839,6 +840,9 @@ exit 0
 
 
 %changelog
+* Mon Jan 06 2025 Michal Sekletar <msekleta@redhat.com> - 0.8-22
+- Fix CVE-2024-52616 (RHEL-67722)
+
 * Mon Aug 26 2024 Michal Sekletar <msekleta@redhat.com> - 0.8-21
 - fix file attributes on /run/avahi-daemon (RHEL-5633)
 - avahi-client: fix resource leak (RHEL-27722)
