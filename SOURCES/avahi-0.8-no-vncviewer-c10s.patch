@@ -1,0 +1,41 @@
+diff -up avahi-0.8/avahi-ui/bssh.c.vnc avahi-0.8/avahi-ui/bssh.c
+--- avahi-0.8/avahi-ui/bssh.c.vnc	2024-06-27 09:18:51.742457490 +0200
++++ avahi-0.8/avahi-ui/bssh.c	2024-06-27 09:43:06.669594577 +0200
+@@ -186,11 +186,14 @@ int main(int argc, char*argv[]) {
+ 
+         if (avahi_domain_equal(t, "_rfb._tcp")) {
+             char p[AVAHI_DOMAIN_NAME_MAX+16];
+-            snprintf(p, sizeof(p), "%s:%u", h, aui_service_dialog_get_port(AUI_SERVICE_DIALOG(d))-5900);
++            char p_prefixed[AVAHI_DOMAIN_NAME_MAX+22];
+ 
++            snprintf(p, sizeof(p), "%s:%u", h, aui_service_dialog_get_port(AUI_SERVICE_DIALOG(d))-5900);
++            snprintf(p_prefixed, sizeof(p_prefixed), "vnc://%s:%u", h, aui_service_dialog_get_port(AUI_SERVICE_DIALOG(d))-5900);
+             gtk_widget_destroy(d);
+ 
+-            g_print("vncviewer %s\n", p);
++            g_print("gnome-connections %s\n", p);
++            execlp("gnome-connections", "gnome-connections", p_prefixed, NULL);
+             execlp("xvncviewer", "xvncviewer", p, NULL);
+             execlp("vncviewer", "vncviewer", p, NULL);
+ 
+diff -up avahi-0.8/man/bssh.1.xml.in.vnc avahi-0.8/man/bssh.1.xml.in
+--- avahi-0.8/man/bssh.1.xml.in.vnc	2024-06-27 09:16:56.485135447 +0200
++++ avahi-0.8/man/bssh.1.xml.in	2024-06-27 09:18:35.817412999 +0200
+@@ -32,7 +32,7 @@
+     <description>
+       <p>bssh/bvnc/bshell browses for SSH/VNC servers on the local
+       network, shows them in a GUI for the user to select one and
+-      finally calls ssh/vncviewer after a selection was made.</p>
++      finally calls ssh/GNOME Connections after a selection was made.</p>
+ 
+       <p>If the binary is called as bssh only ssh servers will be shown. If the binary is called as bvnc only VNC servers will be shown. If the binary is called as bshell both VNC and SSH servers are shown.</p>
+ 
+@@ -76,7 +76,7 @@
+ 
+     <section name="See also">
+       <p>
+-        <manref name="avahi-browse" section="1"/>, <manref name="ssh" section="1"/>, <manref name="vncviewer" section="1"/>
++        <manref name="avahi-browse" section="1"/>, <manref name="ssh" section="1"/>
+       </p>
+     </section>
+ 
