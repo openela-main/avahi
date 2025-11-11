@@ -48,7 +48,7 @@
 
 Name:             avahi
 Version:          0.8
-Release:          22%{?dist}.1
+Release:          23%{?dist}
 Summary:          Local network service discovery
 License:          LGPLv2+
 URL:              http://avahi.org
@@ -842,8 +842,8 @@ exit 0
 
 
 %changelog
-* Fri Jul 11 2025 Michal Sekletar <msekleta@redhat.com> - 0.8-22.1
-- Fix CVE-2024-52615 (RHEL-94847)
+* Wed Jul 09 2025 Michal Sekletar <msekleta@redhat.com> - 0.8-23
+- Fix CVE-2024-52615 (RHEL-94846)
 
 * Mon Jan 06 2025 Michal Sekletar <msekleta@redhat.com> - 0.8-22
 - Fix CVE-2024-52616 (RHEL-67722)
