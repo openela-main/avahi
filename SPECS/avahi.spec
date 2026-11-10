@@ -48,7 +48,7 @@
 
 Name:             avahi
 Version:          0.8
-Release:          23%{?dist}
+Release:          24%{?dist}
 Summary:          Local network service discovery
 License:          LGPLv2+
 URL:              http://avahi.org
@@ -57,7 +57,6 @@ Requires:         expat
 Requires:         libdaemon >= 0.11
 # For /usr/bin/dbus-send
 Requires(post):   dbus
-Requires(pre):    shadow-utils
 Requires(pre):    coreutils
 Requires:         %{name}-libs%{?_isa} = %{version}-%{release}
 BuildRequires:    automake
@@ -117,6 +116,8 @@ BuildRequires:    systemd
 %{?systemd_requires}
 BuildRequires:    gcc
 BuildRequires:    gcc-c++
+BuildRequires:    systemd-rpm-macros
+%{?sysusers_requires_compat}
 
 %if 0%{?beta:1}
 Source0:          https://github.com/lathiat/avahi/archive/%{version}-%{beta}.tar.gz#/%{name}-%{version}-%{beta}.tar.gz
@@ -124,6 +125,8 @@ Source0:          https://github.com/lathiat/avahi/archive/%{version}-%{beta}.ta
 Source0:          https://github.com/lathiat/avahi/releases/download/v%{version}/avahi-%{version}.tar.gz
 #Source0:         http://avahi.org/download/avahi-%{version}.tar.gz
 %endif
+Source1:          avahi.sysusers.conf
+Source2:          avahi-autoipd.sysusers.conf
 
 ## upstream patches
 Patch6: 0006-avahi-dnsconfd.service-Drop-Also-avahi-daemon.socket.patch
@@ -403,8 +406,8 @@ libraries.
 
 %package autoipd
 Summary:          Link-local IPv4 address automatic configuration daemon (IPv4LL)
-Requires(pre):    shadow-utils
 Requires:         %{name}-libs%{?_isa} = %{version}-%{release}
+%{?sysusers_requires_compat}
 
 %description autoipd
 avahi-autoipd implements IPv4LL, "Dynamic Configuration of IPv4
@@ -558,6 +561,8 @@ rm -fv %{buildroot}%{_sysconfdir}/rc.d/init.d/avahi-dnsconfd
 
 %find_lang %{name}
 
+install -m0644 -D %{SOURCE1} %{buildroot}%{_sysusersdir}/avahi.conf
+install -m0644 -D %{SOURCE2} %{buildroot}%{_sysusersdir}/avahi-autoipd.conf
 
 %check
 %if %{WITH_PYTHON}
@@ -568,15 +573,7 @@ done
 
 
 %pre
-getent group avahi >/dev/null || groupadd -f -g 70 -r avahi
-if ! getent passwd avahi > /dev/null ; then
-  if ! getent passwd 70 > /dev/null ; then
-    useradd -r -l -u 70 -g avahi -d %{_localstatedir}/run/avahi-daemon -s /sbin/nologin -c "Avahi mDNS/DNS-SD Stack" avahi
-  else
-    useradd -r -l -g avahi -d %{_localstatedir}/run/avahi-daemon -s /sbin/nologin -c "Avahi mDNS/DNS-SD Stack" avahi
-  fi
-fi
-exit 0
+%sysusers_create_compat %{SOURCE1}
 
 %post
 %{?ldconfig}
@@ -594,15 +591,7 @@ fi
 %systemd_postun_with_restart avahi-daemon.socket avahi-daemon.service
 
 %pre autoipd
-getent group avahi-autoipd >/dev/null || groupadd -f -g 170 -r avahi-autoipd
-if ! getent passwd avahi-autoipd > /dev/null ; then
-  if ! getent passwd 170 > /dev/null; then
-    useradd -r -u 170 -l -g avahi-autoipd -d %{_localstatedir}/lib/avahi-autoipd -s /sbin/nologin -c "Avahi IPv4LL Stack" avahi-autoipd
-  else
-    useradd -r -l -g avahi-autoipd -d %{_localstatedir}/lib/avahi-autoipd -s /sbin/nologin -c "Avahi IPv4LL Stack" avahi-autoipd
-  fi
-fi
-exit 0
+%sysusers_create_compat %{SOURCE2}
 
 %post dnsconfd
 %systemd_post avahi-dnsconfd.service
@@ -651,12 +640,14 @@ exit 0
 %{_datadir}/dbus-1/interfaces/*.xml
 %{_datadir}/dbus-1/system-services/org.freedesktop.Avahi.service
 %{_libdir}/libavahi-core.so.*
+%{_sysusersdir}/avahi.conf
 
 %files autoipd
 %{_sbindir}/avahi-autoipd
 %config(noreplace) %{_sysconfdir}/avahi/avahi-autoipd.action
 %attr(1770,avahi-autoipd,avahi-autoipd) %dir %{_localstatedir}/lib/avahi-autoipd/
 %{_mandir}/man8/avahi-autoipd.*
+%{_sysusersdir}/avahi-autoipd.conf
 
 %files dnsconfd
 %config(noreplace) %{_sysconfdir}/avahi/avahi-dnsconfd.action
@@ -842,6 +833,9 @@ exit 0
 
 
 %changelog
+* Mon Mar 16 2026 Michal Sekletár <msekleta@redhat.com> - 0.8-24
+- Add sysusers.d config files to create avahi and avahi-autoipd users/groups (RHEL-110178)
+
 * Wed Jul 09 2025 Michal Sekletar <msekleta@redhat.com> - 0.8-23
 - Fix CVE-2024-52615 (RHEL-94846)
 
